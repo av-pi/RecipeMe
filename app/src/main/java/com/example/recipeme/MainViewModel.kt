@@ -11,7 +11,31 @@ class MainViewModel: ViewModel() {
     private val _categoriesState = mutableStateOf(RecipeState())
     val categoriesState: State<RecipeState> = _categoriesState
 
+    init {
+        fetchCategories()
+    }
 
+    /*
+    / Makes network call to get all categories
+    */
+    private fun fetchCategories() {
+        viewModelScope.launch {
+            try {
+                val response: CategoriesResponse = recipeService.getCategories()
+                _categoriesState.value = _categoriesState.value.copy(
+                    list = response.categories,
+                    loading = false,
+                    error = null
+                )
+
+            } catch (e: Exception) {
+                _categoriesState.value = _categoriesState.value.copy(
+                    loading = false,
+                    error = "Error fetching categories ${e.message}"
+                )
+            }
+        }
+    }
 
     data class RecipeState(
         val loading: Boolean = true,
