@@ -20,6 +20,7 @@ class MainViewModel: ViewModel() {
     */
     private fun fetchCategories() {
         viewModelScope.launch {
+
             try {
                 val response: CategoriesResponse = recipeService.getCategories()
                 _categoriesState.value = _categoriesState.value.copy(

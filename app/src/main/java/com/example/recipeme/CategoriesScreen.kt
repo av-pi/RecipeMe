@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 
 /*
@@ -27,9 +26,8 @@ Composable for checking current state of categories screen.
 Based on the state, displays loader, error or categories grid.
  */
 @Composable
-fun CategoryScreen(modifier: Modifier = Modifier) {
-    val viewModel: MainViewModel = viewModel()
-
+fun CategoryScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    //val viewModel: MainViewModel = viewModel()
     val categoriesScreenState by viewModel.categoriesState
 
     Box(
