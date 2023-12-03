@@ -12,6 +12,8 @@ RecipeMe is an Android app developed in Kotlin and Jetpack Compose. It leverages
   
 - **Recipe Details:** Within each category, access detailed information and instructions for a wide variety of recipes.
 
+- **Coroutines:** Utilizes Kotlin coroutines for asynchronous programming, ensuring smooth and responsive user interactions.
+
 ## Tech Stack
 
 - **Kotlin:** The primary programming language used for development.
@@ -27,6 +29,8 @@ RecipeMe is an Android app developed in Kotlin and Jetpack Compose. It leverages
 - **Repository Design Pattern:** Manages the data access layer, providing a clean API to the rest of the application.
 
 - **Jetpack Navigation:** Enables navigation between different screens in a structured way.
+
+- **Kotlin Coroutines:** Efficiently handles asynchronous tasks, such as API calls, without blocking the main thread.
 
 ## Installation
 
@@ -45,7 +49,7 @@ To run the app locally, follow these steps:
 
 ## Usage
 
-Once the app is installed, open RecipeMe on your Android device or emulator. Explore the various ingredient categories and discover new recipes. Enjoy a user-friendly interface designed with Jetpack Compose!
+Once the app is installed, open RecipeMe on your Android device or emulator. Explore the various ingredient categories and discover new recipes. Enjoy a user-friendly interface designed with Jetpack Compose, and benefit from the responsiveness brought by Kotlin coroutines for seamless asynchronous operations!
 
 ## Contributing
 
@@ -58,5 +62,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Special thanks to [theMealdb](https://www.themealdb.com/) for providing the API used in this project.
-
-
