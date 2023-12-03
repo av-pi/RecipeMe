@@ -1,6 +1,7 @@
 package com.example.recipeme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -26,7 +27,9 @@ Composable for checking current state of categories screen.
 Based on the state, displays loader, error or categories grid.
  */
 @Composable
-fun CategoryScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+fun CategoryScreen(modifier: Modifier = Modifier,
+                   viewModel: MainViewModel,
+                   navigateToDetailsScreen: (Category) -> Unit) {
     //val viewModel: MainViewModel = viewModel()
     val categoriesScreenState by viewModel.categoriesState
 
@@ -43,7 +46,7 @@ fun CategoryScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             }
 
             else -> {
-                CategoryGrid(categories = categoriesScreenState.list)
+                CategoryGrid(categories = categoriesScreenState.list, navigateToDetailsScreen)
             }
         }
     }
@@ -53,7 +56,8 @@ fun CategoryScreen(modifier: Modifier = Modifier, viewModel: MainViewModel) {
 Composable for the grid of recipe categories
  */
 @Composable
-fun CategoryGrid(categories: List<Category>) {
+fun CategoryGrid(categories: List<Category>,
+                 navigateToDetailsScreen: (Category) -> Unit) {
 
     //Category grid
     LazyVerticalGrid(
@@ -62,7 +66,7 @@ fun CategoryGrid(categories: List<Category>) {
     ) {
         items(categories) {
             category ->
-            CategoryItem(category = category)
+            CategoryItem(category = category, navigateToDetailsScreen)
         }
     }
 }
@@ -71,11 +75,15 @@ fun CategoryGrid(categories: List<Category>) {
 Composable for each item in the recipe categories grid
  */
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category,
+                 navigateToDetailsScreen: (Category) -> Unit) {
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .clickable {
+                navigateToDetailsScreen(category)
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
