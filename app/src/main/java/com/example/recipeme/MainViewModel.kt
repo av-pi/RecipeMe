@@ -4,12 +4,21 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
+    // State members for categories
     private val _categoriesState = mutableStateOf(RecipeState())
     val categoriesState: State<RecipeState> = _categoriesState
+
+    // State members for recipe previews
+    /* TODO: Declare members for recipe preview state as flows */
+    private val _recipePreviewStateFlow = MutableStateFlow(RecipeState())
+    val recipePreviewStateFlow = _recipePreviewStateFlow.asStateFlow()
 
     init {
         fetchCategories()

@@ -17,7 +17,8 @@ fun AppNavigation(navController: NavHostController) {
 
         //Categories grid screen
         composable(route = Screen.CategoriesScreen.route) {
-            CategoryScreen(viewModel = viewModel,
+            CategoryScreen(
+                screenState = viewModel.categoriesState,
                 navigateToDetailsScreen = {
                     navController.currentBackStackEntry?.savedStateHandle?.set("category", it)
                     navController.navigate(Screen.CategoryDetailsScreen.route)

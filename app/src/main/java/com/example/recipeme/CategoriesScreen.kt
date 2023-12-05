@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +29,10 @@ Based on the state, displays loader, error or categories grid.
  */
 @Composable
 fun CategoryScreen(modifier: Modifier = Modifier,
-                   viewModel: MainViewModel,
+                   screenState: State<MainViewModel.RecipeState>,
                    navigateToDetailsScreen: (Category) -> Unit) {
-    //val viewModel: MainViewModel = viewModel()
-    val categoriesScreenState by viewModel.categoriesState
+
+    val categoriesScreenState by screenState
 
     Box(
         modifier = Modifier.fillMaxSize()

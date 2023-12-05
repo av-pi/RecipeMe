@@ -3,6 +3,7 @@ package com.example.recipeme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 private val retrofit = Retrofit
@@ -17,4 +18,7 @@ interface ApiService {
 
     @GET("categories.php")
     suspend fun getCategories(): CategoriesResponse
+
+    @GET("filter.php")
+    suspend fun getRecipePreviews(@Query("c") category: String): RecipePreviewResponse
 }
