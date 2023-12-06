@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -107,22 +111,43 @@ fun CategoryItem(category: Category,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        //Category image
-        Image(
-            //Coil composable for jetpack compose added in dependencies
-            painter = rememberAsyncImagePainter(category.strCategoryThumb),
-            contentDescription = "Image of food category",
-            modifier = Modifier
-                .fillMaxSize()
-                .aspectRatio(1f)
-        )
+        Box(modifier = Modifier
+            .fillMaxSize()
+        ) {
+            //Category image
+            Image(
+                //Coil composable for jetpack compose added in dependencies
+                painter = rememberAsyncImagePainter(category.strCategoryThumb),
+                contentDescription = "Image of food category",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(1f)
+                    .align(Alignment.Center)
+            )
 
-        //Category name
-        Text(
-            text = category.strCategory,
-            color = Color.Black,
-            style = TextStyle(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(top = 4.dp)
-        )
+            //Category name
+            Text(
+                text = category.strCategory,
+                color = Color.Black,
+                style = TextStyle(fontWeight = FontWeight.Bold),
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .align(Alignment.BottomCenter)
+            )
+            
+            IconButton(onClick = {
+                navigateToDetailsScreen(category)
+            },
+                modifier = Modifier.align(Alignment.TopEnd)) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "Information about the category",
+                    tint = Color.Gray
+                )
+                
+            }
+        }
+
+
     }
 }
