@@ -6,6 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
+/**
+ * Manages the navigation to every screen in the application
+ *
+ * @param navController The navigation controller instance responsible for moving between screens
+ */
 @Composable
 fun AppNavigation(navController: NavHostController) {
     val viewModel: MainViewModel = viewModel()

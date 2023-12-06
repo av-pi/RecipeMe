@@ -23,13 +23,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 
-/*
-Composable for checking current state of categories screen.
-Based on the state, displays loader, error or categories grid.
+/**
+ * Composable for checking current state of categories screen.
+ * Based on the state, displays loader, error or categories grid.
+ *
+ * @param modifier Optional modifier to customise how categories are displayed
+ * @param screenState The state of the categories retrieved
+ * @param navigateToDetailsScreen The lambda function from the navigation block
+ *
+ * The composable utilises statehoisting to pass in the stored
+ * state from the viewmodel to ensure separation of concerns
  */
 @Composable
 fun CategoryScreen(modifier: Modifier = Modifier,
-                   screenState: State<MainViewModel.RecipeState>,
+                   screenState: State<MainViewModel.CategoryState>,
                    navigateToDetailsScreen: (Category) -> Unit) {
 
     val categoriesScreenState by screenState
@@ -53,8 +60,11 @@ fun CategoryScreen(modifier: Modifier = Modifier,
     }
 }
 
-/*
-Composable for the grid of recipe categories
+/**
+ * Composable for the grid of recipe categories
+ *
+ * @param categories List of categories fetched from the backend
+ * @param navigateToDetailsScreen Lambda function managing the movement to category details screen
  */
 @Composable
 fun CategoryGrid(categories: List<Category>,
@@ -72,8 +82,11 @@ fun CategoryGrid(categories: List<Category>,
     }
 }
 
-/*
-Composable for each item in the recipe categories grid
+/**
+ * Composable for each item in the recipe categories grid
+ *
+ * @param category The specific category being displayed in this row
+ * @param navigateToDetailsScreen Lambda function managing the movement to category details screen
  */
 @Composable
 fun CategoryItem(category: Category,

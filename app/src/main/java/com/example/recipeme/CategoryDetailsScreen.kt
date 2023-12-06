@@ -17,6 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 
+/**
+ * Composable that shows the user details of a category
+ *
+ * @param category The category whose details are being shown
+ */
 @Composable
 fun CategoryDetailsScreen(category: Category) {
     Column(
