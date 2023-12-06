@@ -1,6 +1,5 @@
 package com.example.recipeme
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -62,7 +61,6 @@ class MainViewModel: ViewModel() {
                     loading = false,
                     error = null
                 )
-                Log.i("MYTAG", recipePreviewStateFlow.value.list.toString())
             } catch (e: Exception) {
                     _recipePreviewStateFlow.value = _recipePreviewStateFlow.value.copy(
                         loading = false,

@@ -27,8 +27,15 @@ fun AppNavigation(navController: NavHostController) {
                 navigateToDetailsScreen = {
                     navController.currentBackStackEntry?.savedStateHandle?.set("category", it)
                     navController.navigate(Screen.CategoryDetailsScreen.route)
-
-            })
+                },
+                navigateToRecipesPreviewScreen = { category ->
+                    viewModel.fetchRecipesByCategory(category.strCategory)
+                    navController.navigate(Screen.RecipePreviewsScreen.route)
+                })
+        }
+        
+        composable(route = Screen.RecipePreviewsScreen.route) {
+            RecipePreviewsScreen(screenStateFlow = viewModel.recipePreviewStateFlow)
         }
 
         //Category details screen

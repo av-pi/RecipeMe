@@ -7,6 +7,7 @@ package com.example.recipeme
  * @param route The route name for each screen in the application
  */
 sealed class Screen(val route: String) {
-    object CategoriesScreen: Screen("categoriesscreen")
-    object CategoryDetailsScreen: Screen("categorydetailsscreen")
+    object CategoriesScreen: Screen("categories_screen")
+    object CategoryDetailsScreen: Screen("category_details_screen")
+    object RecipePreviewsScreen: Screen("recipe_previews_screen")
 }

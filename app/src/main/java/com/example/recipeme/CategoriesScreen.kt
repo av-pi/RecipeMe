@@ -27,7 +27,6 @@ import coil.compose.rememberAsyncImagePainter
  * Composable for checking current state of categories screen.
  * Based on the state, displays loader, error or categories grid.
  *
- * @param modifier Optional modifier to customise how categories are displayed
  * @param screenState The state of the categories retrieved
  * @param navigateToDetailsScreen The lambda function from the navigation block
  *
@@ -35,9 +34,9 @@ import coil.compose.rememberAsyncImagePainter
  * state from the viewmodel to ensure separation of concerns
  */
 @Composable
-fun CategoryScreen(modifier: Modifier = Modifier,
-                   screenState: State<MainViewModel.CategoryState>,
-                   navigateToDetailsScreen: (Category) -> Unit) {
+fun CategoryScreen(screenState: State<MainViewModel.CategoryState>,
+                   navigateToDetailsScreen: (Category) -> Unit,
+                   navigateToRecipesPreviewScreen: (Category) -> Unit) {
 
     val categoriesScreenState by screenState
 
@@ -54,7 +53,9 @@ fun CategoryScreen(modifier: Modifier = Modifier,
             }
 
             else -> {
-                CategoryGrid(categories = categoriesScreenState.list, navigateToDetailsScreen)
+                CategoryGrid(categories = categoriesScreenState.list,
+                    navigateToDetailsScreen,
+                    navigateToRecipesPreviewScreen)
             }
         }
     }
@@ -68,7 +69,8 @@ fun CategoryScreen(modifier: Modifier = Modifier,
  */
 @Composable
 fun CategoryGrid(categories: List<Category>,
-                 navigateToDetailsScreen: (Category) -> Unit) {
+                 navigateToDetailsScreen: (Category) -> Unit,
+                 navigateToRecipesPreviewScreen: (Category) -> Unit) {
 
     //Category grid
     LazyVerticalGrid(
@@ -77,7 +79,9 @@ fun CategoryGrid(categories: List<Category>,
     ) {
         items(categories) {
             category ->
-            CategoryItem(category = category, navigateToDetailsScreen)
+            CategoryItem(category = category,
+                navigateToDetailsScreen,
+                navigateToRecipesPreviewScreen)
         }
     }
 }
@@ -90,13 +94,15 @@ fun CategoryGrid(categories: List<Category>,
  */
 @Composable
 fun CategoryItem(category: Category,
-                 navigateToDetailsScreen: (Category) -> Unit) {
+                 navigateToDetailsScreen: (Category) -> Unit,
+                 navigateToRecipesPreviewScreen: (Category) -> Unit) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxSize()
             .clickable {
-                navigateToDetailsScreen(category)
+                navigateToRecipesPreviewScreen(category)
+                //navigateToDetailsScreen(category)
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
