@@ -34,4 +34,12 @@ interface ApiService {
     @GET("filter.php")
     suspend fun getRecipePreviews(@Query("c") category: String): RecipePreviewResponse
 
+    /**
+     * Function signature for fetching a specific recipe by its ID
+     *
+     * @param id The ID of the recipe we want all details of
+     */
+    @GET("lookup.php")
+    suspend fun getRecipeById(@Query("i") id: String): RecipeResponse
+
 }
