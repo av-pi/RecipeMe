@@ -20,7 +20,7 @@ fun AppNavigation(navController: NavHostController) {
         startDestination = Screen.CategoriesScreen.route
     ) {
 
-        //Categories grid screen
+        // Categories grid screen
         composable(route = Screen.CategoriesScreen.route) {
             CategoryScreen(
                 screenState = viewModel.categoriesState,
@@ -33,15 +33,26 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Screen.RecipePreviewsScreen.route)
                 })
         }
-        
+
+        // Recipe previews screen showing all recipes of a category
         composable(route = Screen.RecipePreviewsScreen.route) {
-            RecipePreviewsScreen(screenStateFlow = viewModel.recipePreviewStateFlow)
+            RecipePreviewsScreen(screenStateFlow = viewModel.recipePreviewStateFlow,
+                navigateToRecipeScreen = {recipe ->
+                    viewModel.fetchRecipeById(recipe.idMeal.toString())
+                    navController.navigate(Screen.RecipeScreen.route)
+
+                })
         }
 
-        //Category details screen
+        // Category details screen
         composable(route = Screen.CategoryDetailsScreen.route) {
             val category = navController.previousBackStackEntry?.savedStateHandle?.get<Category>("category")?: Category(-1, "","","")
             CategoryDetailsScreen(category = category)
+        }
+
+        // Recipe screen
+        composable(route = Screen.RecipeScreen.route) {
+            RecipeScreen(recipeStateFlow = viewModel.recipeStateFlow)
         }
     }
 }

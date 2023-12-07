@@ -2,6 +2,7 @@ package com.example.recipeme
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -33,7 +34,8 @@ import kotlinx.coroutines.flow.StateFlow
  * @param screenStateFlow The stateflow from MainViewModel
  */
 @Composable
-fun RecipePreviewsScreen(screenStateFlow: StateFlow<MainViewModel.RecipePreviewState>) {
+fun RecipePreviewsScreen(screenStateFlow: StateFlow<MainViewModel.RecipePreviewState>,
+                         navigateToRecipeScreen: (RecipePreview) -> Unit) {
 
     val screenState by screenStateFlow.collectAsState()
 
@@ -57,7 +59,8 @@ fun RecipePreviewsScreen(screenStateFlow: StateFlow<MainViewModel.RecipePreviewS
             else -> {
                 LazyColumn {
                     items(screenState.list) {recipe ->
-                        RecipePreviewItem(recipe = recipe)
+                        RecipePreviewItem(recipe = recipe,
+                            navigateToRecipeScreen)
                     }
                 }
             }
@@ -71,9 +74,14 @@ fun RecipePreviewsScreen(screenStateFlow: StateFlow<MainViewModel.RecipePreviewS
  * @param recipe The recipe whose preview must be shown to the user
  */
 @Composable
-fun RecipePreviewItem(recipe: RecipePreview) {
+fun RecipePreviewItem(recipe: RecipePreview,
+                      navigateToRecipeScreen: (RecipePreview) -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                       navigateToRecipeScreen(recipe)
+            },
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically) {
 

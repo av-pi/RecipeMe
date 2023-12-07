@@ -18,6 +18,10 @@ class MainViewModel: ViewModel() {
     private val _recipePreviewStateFlow = MutableStateFlow(RecipePreviewState())
     val recipePreviewStateFlow = _recipePreviewStateFlow.asStateFlow()
 
+    /** State members for recipes */
+    private val _recipeStateFlow = MutableStateFlow(RecipeState())
+    val recipeStateFlow = _recipeStateFlow.asStateFlow()
+
 
     init {
         fetchCategories()
@@ -50,7 +54,7 @@ class MainViewModel: ViewModel() {
      *
      * @param categoryName The specific category whose recipes must be previewed
      *
-     * This composable updates the MainViewModel's RecipePreview state
+     * This function updates the MainViewModel's RecipePreview state
      */
     fun fetchRecipesByCategory(categoryName: String) {
         viewModelScope.launch {
@@ -71,6 +75,32 @@ class MainViewModel: ViewModel() {
     }
 
     /**
+     * Fetches a specific recipe from the backend
+     *
+     * @param id The id of the recipe to be fetched
+     *
+     * This function updates the Viewmodel's recipe state flow
+     */
+    fun fetchRecipeById(id: String) {
+        viewModelScope.launch {
+            try {
+                val response: RecipeResponse = recipeService.getRecipeById(id)
+                _recipeStateFlow.value = _recipeStateFlow.value.copy(
+                    recipe = response.meals[0],
+                    loading = false,
+                    error = null
+                )
+
+            } catch (e: Exception) {
+                _recipeStateFlow.value = _recipeStateFlow.value.copy(
+                    loading = false,
+                    error = "Error fetching the recipe! \n ${e.message}"
+                )
+            }
+        }
+    }
+
+    /**
      * Class that represents the state of the retrieved categories
      */
     data class CategoryState(
@@ -80,11 +110,20 @@ class MainViewModel: ViewModel() {
     )
 
     /**
-     * Class that represents the state of the retrieved recipes in a category
+     * Class that represents the state of the retrieved recipe previews in a category
      */
     data class RecipePreviewState(
         val loading: Boolean = true,
         val list: List<RecipePreview> = emptyList(),
+        val error: String? = null
+    )
+
+    /**
+     * Class that represents the state of the retrieved recipe
+     */
+    data class RecipeState(
+        val loading: Boolean = true,
+        val recipe: Recipe? = null,
         val error: String? = null
     )
 }
