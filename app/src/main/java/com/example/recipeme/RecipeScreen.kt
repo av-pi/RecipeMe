@@ -1,6 +1,7 @@
 package com.example.recipeme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,10 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -29,8 +28,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -133,7 +134,7 @@ fun PreviewRecipeDisplay() {
         dateModified = null,
         null
     )
-    
+
     RecipeDisplay(recipe = recipe)
 }
 
@@ -145,84 +146,98 @@ fun PreviewRecipeDisplay() {
 // TODO: Significantly improve upon the UI
 @Composable
 fun RecipeDisplay(recipe: Recipe) {
-    val backgroundColor = Color(0xFFF8F5F2) // Light background
-    val titleColor = Color(0xFF333333) // Dark title
-    val secondaryColor = Color(0xFF999999) // Gray text
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = backgroundColor
+        color = MaterialTheme.colorScheme.surface
     ) {
-        Column(modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(1f)
-        ) {
-            // Recipe Image
-            Card(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                shape = RoundedCornerShape(8.dp),
-                elevation =  CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                )
-            ) {
-                Box(modifier = Modifier
-                    .size(100.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    ) {
-
-                    Image(painter = rememberAsyncImagePainter(recipe.strMealThumb),
-                    contentDescription = "Image thumbnail of the recipe"
-                )
-                }
-            }
-
-            // Recipe Title and Category
-            Text(
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                text = recipe.strMeal,
-                style = MaterialTheme.typography.displayMedium,
-                color = titleColor,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = recipe.strCategory,
-                style = MaterialTheme.typography.bodyMedium,
-                color = secondaryColor
-            )
-
+        Column {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(1.dp)
-                    .verticalScroll(rememberScrollState())
-
+                    .fillMaxWidth(1f)
+                    .weight(1f)
             ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+
+                ) {
+
+                    Image(
+                        painter = rememberAsyncImagePainter(recipe.strMealThumb),
+                        contentDescription = "Image thumbnail of the recipe",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .alpha(0.5f),
+                            //.drawBehind { drawRect(Color(0, 0, 0, 128)) },
+                        contentScale = ContentScale.FillWidth
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomStart)
+                            .background(Brush.verticalGradient(0F to Color.Transparent, .5F to Color.Transparent, 1F to MaterialTheme.colorScheme.secondary))
+                    ) {
+                        // Recipe Title and Category
+                        Text(
+                            modifier = Modifier
+                                .padding(bottom = 4.dp, start = 4.dp),
+                            text = recipe.strMeal,
+                            style = MaterialTheme.typography.displaySmall,
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = recipe.strCategory,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            modifier = Modifier.padding(start = 4.dp, top = 2.dp, bottom = 4.dp)
+                        )
+
+                    }
+
+
+                }
+
+            }
+            Column(
+                modifier = Modifier
+                    .padding(1.dp)
+                    .fillMaxWidth(1f)
+                    .weight(4f)
+                    .verticalScroll(rememberScrollState())
+            ) {
+
 
                 // Ingredients
                 Card(
                     modifier = Modifier
-                        .padding(top = 16.dp)
+                        .padding(12.dp)
                         .fillMaxWidth(1f),
+                        //.background(color = MaterialTheme.colorScheme.secondary),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
                     shape = RoundedCornerShape(8.dp),
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 10.dp
                     )
                 ) {
-                    Column(modifier = Modifier
-                        .padding(16.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
                         Text(
                             text = "Ingredients:",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = titleColor,
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.onSecondary,
                             fontWeight = FontWeight.Bold
                         )
 
                         for (i in recipe.getIngredientsList()) {
                             Text(
                                 text = "${i.quantity} ${i.name}",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = secondaryColor
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSecondary
                             )
                         }
                     }
@@ -231,28 +246,30 @@ fun RecipeDisplay(recipe: Recipe) {
                 // Instructions
                 Card(
                     modifier = Modifier
-                        .padding(top = 16.dp)
+                        .padding(12.dp)
                         .fillMaxWidth(1f)
                         .wrapContentHeight(),
                     shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 10.dp
                     )
                 ) {
-                    Column(modifier = Modifier
-                        .padding(16.dp)
-                        .wrapContentHeight()
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .wrapContentHeight()
                     ) {
                         Text(
                             text = "Instructions:",
-                            style = MaterialTheme.typography.displayMedium,
-                            color = titleColor,
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.onSecondary,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = recipe.strInstructions,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = secondaryColor,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSecondary,
                         )
                     }
                 }
@@ -267,17 +284,21 @@ fun RecipeDisplay(recipe: Recipe) {
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        text = "Source: ${recipe.strSource}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = secondaryColor
-                    )
+                    if (!recipe.strSource.isNullOrEmpty()) {
+                        Text(
+                            text = "Source: ${recipe.strSource}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier.weight(1f).padding(4.dp)
+                        )
+                    }
+
                     if (recipe.strYoutube.isNotEmpty()) {
                         IconButton(onClick = { /* Open Youtube Link */ }) {
                             Icon(
                                 imageVector = Icons.Outlined.ExitToApp,
                                 contentDescription = "View on YouTube",
-                                tint = Color.DarkGray
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }

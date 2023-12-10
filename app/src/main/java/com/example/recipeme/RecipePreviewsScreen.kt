@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.StateFlow
 
@@ -39,33 +40,40 @@ fun RecipePreviewsScreen(screenStateFlow: StateFlow<MainViewModel.RecipePreviewS
 
     val screenState by screenStateFlow.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
+    Surface(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ) {
-        when {
-            // Data being fetched from the backend
-            screenState.loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-            // Data fetch failed or something went wrong
-            screenState.error != null -> {
-                Text(text = "ERROR OCCURRED!")
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.secondary)
+        ) {
+            when {
+                // Data being fetched from the backend
+                screenState.loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                // Data fetch failed or something went wrong
+                screenState.error != null -> {
+                    Text(text = "ERROR OCCURRED!")
+                }
 
-            // Successfully fetched data
-            else -> {
-                LazyColumn {
-                    items(screenState.list) {recipe ->
-                        RecipePreviewItem(recipe = recipe,
-                            navigateToRecipeScreen)
+                // Successfully fetched data
+                else -> {
+                    LazyColumn {
+                        items(screenState.list) {recipe ->
+                            RecipePreviewItem(recipe = recipe,
+                                navigateToRecipeScreen)
+                        }
                     }
                 }
             }
         }
     }
+
+
 }
 
 /**
@@ -80,8 +88,9 @@ fun RecipePreviewItem(recipe: RecipePreview,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                       navigateToRecipeScreen(recipe)
-            },
+                navigateToRecipeScreen(recipe)
+            }
+            .background(MaterialTheme.colorScheme.secondary),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically) {
 
@@ -104,7 +113,7 @@ fun RecipePreviewItem(recipe: RecipePreview,
                 .padding(start = 8.dp),
             text = recipe.strMeal,
             textAlign = TextAlign.Left,
-            fontSize = 20.sp
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }

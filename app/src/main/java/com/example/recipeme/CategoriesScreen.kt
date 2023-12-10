@@ -1,6 +1,7 @@
 package com.example.recipeme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,20 +11,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 
@@ -100,54 +103,65 @@ fun CategoryGrid(categories: List<Category>,
 fun CategoryItem(category: Category,
                  navigateToDetailsScreen: (Category) -> Unit,
                  navigateToRecipesPreviewScreen: (Category) -> Unit) {
-    Column(
+
+    Card(
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .clickable {
-                navigateToRecipesPreviewScreen(category)
-                //navigateToDetailsScreen(category)
-            },
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(4.dp)
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(color = MaterialTheme.colorScheme.secondary)
     ) {
-
-        Box(modifier = Modifier
-            .fillMaxSize()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.secondary)
+                .padding(8.dp)
+                .clickable {
+                    navigateToRecipesPreviewScreen(category)
+                    //navigateToDetailsScreen(category)
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //Category image
-            Image(
-                //Coil composable for jetpack compose added in dependencies
-                painter = rememberAsyncImagePainter(category.strCategoryThumb),
-                contentDescription = "Image of food category",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .aspectRatio(1f)
-                    .align(Alignment.Center)
-            )
 
-            //Category name
-            Text(
-                text = category.strCategory,
-                color = Color.Black,
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .align(Alignment.BottomCenter)
-            )
-            
-            IconButton(onClick = {
-                navigateToDetailsScreen(category)
-            },
-                modifier = Modifier.align(Alignment.TopEnd)) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "Information about the category",
-                    tint = Color.Gray
+            Box(modifier = Modifier
+                .fillMaxSize()
+            ) {
+                //Category image
+                Image(
+                    //Coil composable for jetpack compose added in dependencies
+                    painter = rememberAsyncImagePainter(category.strCategoryThumb),
+                    contentDescription = "Image of food category",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .aspectRatio(1f)
+                        .align(Alignment.Center)
+                        .clip(RoundedCornerShape(16.dp))
                 )
-                
+
+                //Category name
+                Text(
+                    text = category.strCategory,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                        .align(Alignment.BottomCenter)
+                )
+
+                IconButton(onClick = {
+                    navigateToDetailsScreen(category)
+                },
+                    modifier = Modifier.align(Alignment.TopEnd)) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = "Information about the category",
+                        tint = MaterialTheme.colorScheme.onSecondary
+                    )
+
+                }
             }
         }
-
-
     }
 }
