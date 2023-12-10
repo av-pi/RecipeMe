@@ -1,5 +1,7 @@
 package com.example.recipeme
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +34,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -177,7 +180,13 @@ fun RecipeDisplay(recipe: Recipe) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.BottomStart)
-                            .background(Brush.verticalGradient(0F to Color.Transparent, .5F to Color.Transparent, 1F to MaterialTheme.colorScheme.secondary))
+                            .background(
+                                Brush.verticalGradient(
+                                    0F to Color.Transparent,
+                                    .5F to Color.Transparent,
+                                    1F to MaterialTheme.colorScheme.secondary
+                                )
+                            )
                     ) {
                         // Recipe Title and Category
                         Text(
@@ -284,17 +293,52 @@ fun RecipeDisplay(recipe: Recipe) {
                         .fillMaxWidth(1f),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+                    val context = LocalContext.current
                     if (!recipe.strSource.isNullOrEmpty()) {
-                        Text(
-                            text = "Source: ${recipe.strSource}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.weight(1f).padding(4.dp)
-                        )
+
+                        Row(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = "Source:",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(4.dp)
+                            )
+
+                            IconButton(onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW , Uri.parse(recipe.strSource))
+                                context.startActivity(intent)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.ExitToApp,
+                                    contentDescription = "Source of recipe",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+
+
                     }
 
-                    if (recipe.strYoutube.isNotEmpty()) {
-                        IconButton(onClick = { /* Open Youtube Link */ }) {
+                    Row(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = "Youtube:",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                        )
+
+                        IconButton(onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW , Uri.parse(recipe.strYoutube))
+                            context.startActivity(intent)
+                        }) {
                             Icon(
                                 imageVector = Icons.Outlined.ExitToApp,
                                 contentDescription = "View on YouTube",
@@ -302,6 +346,8 @@ fun RecipeDisplay(recipe: Recipe) {
                             )
                         }
                     }
+
+
                 }
             }
         }
