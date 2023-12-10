@@ -12,7 +12,9 @@ RecipeMe is an Android app developed in Kotlin and Jetpack Compose. It leverages
   
 - **Recipe Details:** Within each category, access detailed information and instructions for a wide variety of recipes.
 
-- **Coroutines:** Utilizes Kotlin coroutines for asynchronous programming, ensuring smooth and responsive user interactions.
+- **YouTube Videos and Source Website:** View related YouTube videos for each recipe directly from the recipe page. Additionally, users can visit the source website from which the recipe was taken for more details.
+
+- **Adherence to Material Design 3 Principles:** The app adheres to the principles of Material Design 3, Google's latest iteration of the Material Design system. Material Design 3 introduces new components, patterns, and guidelines for creating modern and visually appealing user interfaces.
 
 ## Tech Stack
 
@@ -31,6 +33,24 @@ RecipeMe is an Android app developed in Kotlin and Jetpack Compose. It leverages
 - **Jetpack Navigation:** Enables navigation between different screens in a structured way.
 
 - **Kotlin Coroutines:** Efficiently handles asynchronous tasks, such as API calls, without blocking the main thread.
+
+- **Jetpack Navigation:** Utilizes NavHost, NavController, and backstacks for seamless navigation between different screens.
+
+- **Repository Design Pattern:** Manages the data access layer, providing a clean API to the rest of the application.
+
+- **State Hoisting Pattern:** The project follows the state hoisting pattern, recommended by Google. This pattern makes the project scalable as the composables in the project become stateless, making future extensions to the project much smoother.
+
+## Screenshots
+
+[![Recipe-Me-Categories-Page.png](https://i.postimg.cc/MpM6TbNt/Recipe-Me-Categories-Page.png)](https://postimg.cc/rDTXZW8t)
+*Grid of all categories of recipes.*
+
+[![Recipe-Me-Recipes-List.png](https://i.postimg.cc/GmWcsT1R/Recipe-Me-Recipes-List.png)](https://postimg.cc/JsQwfnnY)
+*List of recipes in a category.*
+
+[![Recipe-Me-Recipe-Page.png](https://i.postimg.cc/9FNXCN8r/Recipe-Me-Recipe-Page.png)](https://postimg.cc/jLPYhvrb)
+*Recipe page*
+
 
 ## Installation
 
