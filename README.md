@@ -42,14 +42,14 @@ RecipeMe is an Android app developed in Kotlin and Jetpack Compose. It leverages
 
 ## Screenshots
 
+### Grid of all categories of recipes
 [![Recipe-Me-Categories-Page.png](https://i.postimg.cc/MpM6TbNt/Recipe-Me-Categories-Page.png)](https://postimg.cc/rDTXZW8t)
-*Grid of all categories of recipes.*
 
+### List of recipes in a category
 [![Recipe-Me-Recipes-List.png](https://i.postimg.cc/GmWcsT1R/Recipe-Me-Recipes-List.png)](https://postimg.cc/JsQwfnnY)
-*List of recipes in a category.*
 
+### Recipe page
 [![Recipe-Me-Recipe-Page.png](https://i.postimg.cc/9FNXCN8r/Recipe-Me-Recipe-Page.png)](https://postimg.cc/jLPYhvrb)
-*Recipe page*
 
 
 ## Installation
